@@ -5,33 +5,14 @@ import com.eintosti.chess.game.piece.Color;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
+public class PlayerParticipant extends Participant {
 
-public class PlayerParticipant implements Participant {
-
-    private final Color color;
     private final Player player;
-
     private Tile selectedTile;
 
     public PlayerParticipant(Color color, Player player) {
-        this.color = color;
+        super(player.getUniqueId(), color);
         this.player = player;
-    }
-
-    @Override
-    public UUID getID() {
-        return player.getUniqueId();
-    }
-
-    @Override
-    public Color getColor() {
-        return color;
-    }
-
-    @Override
-    public boolean isPlayer() {
-        return true;
     }
 
     public Player getPlayer() {
