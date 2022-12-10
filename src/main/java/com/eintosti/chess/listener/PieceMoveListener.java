@@ -23,6 +23,5 @@ public class PieceMoveListener implements Listener {
 
         new PieceMovement(game, event.getPiece()).complete(move, participant);
         game.nextTurn();
-        game.showLastMoveToOpponent();
     }
 }

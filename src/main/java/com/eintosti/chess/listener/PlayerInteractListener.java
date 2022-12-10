@@ -60,7 +60,13 @@ public class PlayerInteractListener implements Listener {
         }
 
         Tile previousTile = participant.getSelectedTile();
-        if (previousTile == null) {
+        if (previousTile != null && board.canMove(selectedTile, previousTile, participant)) {
+            PieceMoveEvent pieceMoveEvent = new PieceMoveEvent(game, previousTile.getPiece(), previousTile, selectedTile, participant);
+            Bukkit.getServer().getPluginManager().callEvent(pieceMoveEvent);
+            return;
+        }
+
+        if (!selectedTile.equals(previousTile)) {
             Piece selectedPiece = selectedTile.getPiece();
             if (selectedPiece == null || selectedPiece.getColor() != participant.getColor()) {
                 return;
@@ -72,16 +78,8 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        if (selectedTile.equals(previousTile)) {
-            participant.setSelectedTile(null);
-            PieceUnselectEvent pieceUnselectEvent = new PieceUnselectEvent(game, selectedTile.getPiece(), selectedTile, participant);
-            Bukkit.getServer().getPluginManager().callEvent(pieceUnselectEvent);
-            return;
-        }
-
-        if (board.canMove(selectedTile, previousTile, participant)) {
-            PieceMoveEvent pieceMoveEvent = new PieceMoveEvent(game, previousTile.getPiece(), previousTile, selectedTile, participant);
-            Bukkit.getServer().getPluginManager().callEvent(pieceMoveEvent);
-        }
+        participant.setSelectedTile(null);
+        PieceUnselectEvent pieceUnselectEvent = new PieceUnselectEvent(game, selectedTile.getPiece(), selectedTile, participant);
+        Bukkit.getServer().getPluginManager().callEvent(pieceUnselectEvent);
     }
 }

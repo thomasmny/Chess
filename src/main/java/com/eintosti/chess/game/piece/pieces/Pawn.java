@@ -35,7 +35,7 @@ public class Pawn extends Piece {
         addToPawnMovesIfValid(moves, board, x, z, x + 1, z + dir, true); // Kill diagonally
         addToPawnMovesIfValid(moves, board, x, z, x - 1, z + dir, true); // Kill diagonally
 
-        if (!moved) {
+        if (!moved && !board.getTile(x, z + dir).isOccupied()) {
             addToPawnMovesIfValid(moves, board, x, z, x, z + (2 * dir), false); // Forward
         }
 

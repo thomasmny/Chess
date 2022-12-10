@@ -88,7 +88,7 @@ public abstract class Game {
             for (int z = 0; z < Board.MAX_TILES; z++) {
                 Tile tile = board.getTile(x, z);
 
-                if (!resetLastMove) {
+                if (!resetLastMove && lastMove != null) {
                     Move last = lastMove.getMove();
                     Tile from = board.getTile(last.getStartX(), last.getStartZ());
                     Tile to = board.getTile(last.getEndX(), last.getEndZ());
@@ -101,12 +101,16 @@ public abstract class Game {
                 board.getTileFloor(tile).forEach(block -> player.sendBlockChange(block.getLocation(), block.getBlockData()));
             }
         }
+
+        if (!resetLastMove) {
+            showLastMoveToOpponent();
+        }
     }
 
     private void colorTileFloor(Player player, Board board, Tile tile, Material glass, Material concrete) {
         for (Block block : board.getTileFloor(tile)) {
-            player.sendBlockChange(block.getLocation(), glass.createBlockData());
             player.sendBlockChange(block.getRelative(BlockFace.DOWN).getLocation(), concrete.createBlockData());
+            player.sendBlockChange(block.getLocation(), glass.createBlockData());
         }
     }
 
