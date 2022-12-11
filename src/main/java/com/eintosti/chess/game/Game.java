@@ -93,9 +93,7 @@ public abstract class Game {
                 Tile tile = board.getTile(x, z);
                 if (!resetLastMove && lastMove != null) {
                     Move last = lastMove.getMove();
-                    Tile from = board.getTile(last.getStartX(), last.getStartZ());
-                    Tile to = board.getTile(last.getEndX(), last.getEndZ());
-                    if (tile.equals(from) || tile.equals(to)) {
+                    if (tile.equals(last.getFrom()) || tile.equals(last.getTo())) {
                         continue;
                     }
                 }
@@ -121,7 +119,7 @@ public abstract class Game {
     public void showPossibleMoves(Player player, Tile tile, Piece piece) {
         List<Move> moves = piece.getMoves(board, tile.getX(), tile.getZ());
         for (Move move : moves) {
-            colorTileFloor(player, board, board.getTile(move.getEndX(), move.getEndZ()), Material.LIME_STAINED_GLASS, Material.LIME_CONCRETE);
+            colorTileFloor(player, board, move.getTo(), Material.LIME_STAINED_GLASS, Material.LIME_CONCRETE);
         }
     }
 
@@ -132,8 +130,8 @@ public abstract class Game {
 
         Player player = playerParticipant.getPlayer();
         Move move = lastMove.getMove();
-        colorTileFloor(player, board, board.getTile(move.getStartX(), move.getStartZ()), Material.YELLOW_STAINED_GLASS, Material.YELLOW_CONCRETE);
-        colorTileFloor(player, board, board.getTile(move.getEndX(), move.getEndZ()), Material.YELLOW_STAINED_GLASS, Material.YELLOW_CONCRETE);
+        colorTileFloor(player, board, move.getFrom(), Material.YELLOW_STAINED_GLASS, Material.YELLOW_CONCRETE);
+        colorTileFloor(player, board, move.getTo(), Material.YELLOW_STAINED_GLASS, Material.YELLOW_CONCRETE);
     }
 
     public static final class LastMove {

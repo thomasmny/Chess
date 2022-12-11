@@ -9,14 +9,22 @@ import org.jetbrains.annotations.NotNull;
 
 public class PieceMoveEvent extends PieceEvent {
 
-    private final Tile oldTile, newTile;
+    private final Tile from, to;
     private final Participant participant;
 
-    public PieceMoveEvent(Game game, Piece piece, Tile oldTile, Tile newTile, Participant participant) {
+    public PieceMoveEvent(Game game, Move move, Participant participant) {
+        super(game, move.getPiece());
+
+        this.from = move.getFrom();
+        this.to = move.getTo();
+        this.participant = participant;
+    }
+
+    public PieceMoveEvent(Game game, Piece piece, Tile from, Tile to, Participant participant) {
         super(game, piece);
 
-        this.newTile = newTile;
-        this.oldTile = oldTile;
+        this.to = to;
+        this.from = from;
         this.participant = participant;
     }
 
@@ -26,16 +34,16 @@ public class PieceMoveEvent extends PieceEvent {
     }
 
     @NotNull
-    public Tile getOldTile() {
-        return oldTile;
+    public Tile getFrom() {
+        return from;
     }
 
     @NotNull
-    public Tile getNewTile() {
-        return newTile;
+    public Tile getTo() {
+        return to;
     }
 
     public Move getMove() {
-        return new Move(getPiece(), oldTile.getX(), oldTile.getZ(), newTile.getX(), newTile.getZ());
+        return new Move(getPiece(), from, to);
     }
 }

@@ -29,13 +29,14 @@ public class PieceMovement {
         this.schematicManager = JavaPlugin.getPlugin(Chess.class).getSchematicManager();
     }
 
-    public void complete(Move move, Participant participant) {
+    public void execute(Move move) {
         PhysicalBoard board = game.getBoard();
-        Location[] oldCorners = board.getTileCorners(board.getTile(move.getStartX(), move.getStartZ()));
-        Location[] newCorners = board.getTileCorners(board.getTile(move.getEndX(), move.getEndZ()));
+        Location[] oldCorners = board.getTileCorners(move.getFrom());
+        Location[] newCorners = board.getTileCorners(move.getTo());
 
+        Participant participant = game.getCurrentTurn();
         Color color = piece.getColor();
-        Move.Outcome outcome = board.execute(move);
+        Move.Outcome outcome = board.move(move);
         piece.setMoved();
         game.setLastMove(participant, move);
 

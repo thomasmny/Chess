@@ -130,13 +130,14 @@ public class Board {
      * @param move The move the piece should make
      * @return The outcome of the move
      */
-    public Move.Outcome execute(Move move) {
-        int startX = move.getStartX(), startZ = move.getStartZ();
-        int endX = move.getEndX(), endZ = move.getEndZ();
-        boolean isTake = getTile(endX, endZ).isOccupied();
+    public Move.Outcome move(Move move) {
+        final Tile from = move.getFrom();
+        final Tile to = move.getTo();
 
-        Tile oldTile = getTile(startX, startZ);
-        tiles[endX][endZ] = new Tile(endX, endZ, oldTile.getPiece());
+        int startX = from.getX(), startZ = from.getZ();
+        int endX = to.getX(), endZ = to.getZ();
+
+        tiles[endX][endZ] = new Tile(endX, endZ, from.getPiece());
         tiles[startX][startZ] = new Tile(startX, startZ);
 
         if (move.isCastling()) {
@@ -160,25 +161,25 @@ public class Board {
             return Move.Outcome.CASTLE;
         }
 
-        if (oldTile.getPiece() instanceof Pawn) {
-            Color color = oldTile.getPiece().getColor();
+        if (from.getPiece() instanceof Pawn) {
+            Color color = from.getPiece().getColor();
             if ((color == Color.WHITE && endZ == BLACK_MAIN) || (color == Color.BLACK && endZ == WHITE_MAIN)) {
                 tiles[endX][endZ] = new Tile(endX, endZ, new Queen(color));
                 return Move.Outcome.PROMOTION;
             }
         }
 
-        return isTake ? Move.Outcome.TAKE : Move.Outcome.MOVE;
+        return to.isOccupied() ? Move.Outcome.TAKE : Move.Outcome.MOVE;
     }
 
     public MoveTransition transitionMove(Move move, Participant participant) {
         Board copy = copyBoard();
-        if (!canMove(getTile(move.getStartX(), move.getStartZ()), getTile(move.getEndX(), move.getEndZ()), participant)) {
+        if (!canMove(move.getFrom(), move.getTo(), participant)) {
             return new MoveTransition(copy, copy, move, Move.Outcome.ILLEGAL_MOVE);
         }
 
         Board afterMove = copy.copyBoard();
-        Move.Outcome outcome = afterMove.execute(move);
+        Move.Outcome outcome = afterMove.move(move);
         return new MoveTransition(copy, afterMove, move, outcome);
     }
 

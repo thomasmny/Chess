@@ -5,25 +5,17 @@ import com.eintosti.chess.game.piece.Piece;
 public class Move {
 
     private final Piece piece;
-    private final int startX, startZ;
-    private final int endX, endZ;
+    private final Tile from, to;
     private final boolean castling;
 
-    public Move(Piece piece, int startX, int startZ, int endX, int endZ) {
-        this.piece = piece;
-        this.startX = startX;
-        this.startZ = startZ;
-        this.endX = endX;
-        this.endZ = endZ;
-        this.castling = false;
+    public Move(Piece piece, Tile from, Tile to) {
+        this(piece, from, to, false);
     }
 
-    public Move(Piece piece, int startX, int startZ, int endX, int endZ, boolean castling) {
+    public Move(Piece piece, Tile from, Tile to, boolean castling) {
         this.piece = piece;
-        this.startX = startX;
-        this.startZ = startZ;
-        this.endX = endX;
-        this.endZ = endZ;
+        this.from = from;
+        this.to = to;
         this.castling = castling;
     }
 
@@ -31,20 +23,12 @@ public class Move {
         return piece;
     }
 
-    public int getStartX() {
-        return startX;
+    public Tile getFrom() {
+        return from;
     }
 
-    public int getStartZ() {
-        return startZ;
-    }
-
-    public int getEndX() {
-        return endX;
-    }
-
-    public int getEndZ() {
-        return endZ;
+    public Tile getTo() {
+        return to;
     }
 
     public boolean isCastling() {
@@ -53,8 +37,8 @@ public class Move {
 
     @Override
     public String toString() {
-        String from = String.valueOf((char) ('A' + startX)) + (startZ + 1);
-        String to = String.valueOf((char) ('A' + endX)) + (endZ + 1);
+        String from = String.valueOf((char) ('A' + this.from.getX())) + (this.from.getZ() + 1);
+        String to = String.valueOf((char) ('A' + this.to.getX())) + (this.to.getZ() + 1);
         return from + " -> " + to;
     }
 
@@ -64,7 +48,7 @@ public class Move {
             return false;
         }
 
-        return move.getStartX() == startX && move.getStartZ() == startZ && move.getEndX() == endX && move.getEndZ() == endZ;
+        return move.getFrom().equals(this.getFrom()) && move.getTo().equals(this.getTo());
     }
 
     public enum Outcome {

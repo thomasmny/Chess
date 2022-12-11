@@ -63,18 +63,18 @@ public class Pawn extends Piece {
             return;
         }
 
-        Tile tile = board.getTile(endX, endZ);
-        Piece piece = tile.getPiece();
-        if (!kill && tile.isOccupied()) {
+        Tile end = board.getTile(endX, endZ);
+        Piece piece = end.getPiece();
+        if (!kill && end.isOccupied()) {
             return;
         }
 
-        if (kill && !tile.isOccupied()) {
+        if (kill && !end.isOccupied()) {
             return;
         }
 
         if (piece == null || piece.getColor() != this.color) {
-            moves.add(new Move(this, startX, startZ, endX, endZ));
+            moves.add(new Move(this, board.getTile(startX, startZ), end));
         }
     }
 }

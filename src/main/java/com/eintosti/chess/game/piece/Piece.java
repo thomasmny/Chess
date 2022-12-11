@@ -3,6 +3,7 @@ package com.eintosti.chess.game.piece;
 import com.eintosti.chess.game.board.Board;
 import com.eintosti.chess.game.board.Move;
 import com.eintosti.chess.game.board.Tile;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -55,16 +56,16 @@ public abstract class Piece {
     /**
      * Gets the move a Piece is trying to perform
      *
-     * @param startX the Piece's current tile x coordinate
-     * @param startZ the Piece's current tile z coordinate
-     * @param endX   the x coordinate of the tile the Piece wants to move to
-     * @param endZ   the z coordinate of the tile the Piece wants to move to
+     * @param startX The piece's current tile x-coordinate
+     * @param startZ The piece's current tile z-coordinate
+     * @param endX   The x-coordinate of the tile the piece wants to move to
+     * @param endZ   The z-coordinate of the tile the piece wants to move to
      * @return The equivalent move, if any
      */
     @Nullable
     public Move getMove(Board board, int startX, int startZ, int endX, int endZ) {
         for (Move move : getMoves(board, startX, startZ)) {
-            if (move.equals(new Move(this, startX, startZ, endX, endZ))) {
+            if (move.equals(new Move(this, board.getTile(startX, startZ), board.getTile(endX, endZ)))) {
                 return move;
             }
         }
@@ -93,9 +94,9 @@ public abstract class Piece {
             return false;
         }
 
-        Tile tile = board.getTile(endX, endZ);
-        Piece piece = tile.getPiece();
-        Move move = new Move(this, startX, startZ, endX, endZ);
+        Tile end = board.getTile(endX, endZ);
+        Piece piece = end.getPiece();
+        Move move = new Move(this, board.getTile(startX, startZ), end);
 
         if (piece == null) {
             moves.add(move);
