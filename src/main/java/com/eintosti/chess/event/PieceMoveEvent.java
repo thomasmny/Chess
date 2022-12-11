@@ -36,6 +36,6 @@ public class PieceMoveEvent extends PieceEvent {
     }
 
     public Move getMove() {
-        return new Move(oldTile.getX(), oldTile.getZ(), newTile.getX(), newTile.getZ());
+        return new Move(getPiece(), oldTile.getX(), oldTile.getZ(), newTile.getX(), newTile.getZ());
     }
 }

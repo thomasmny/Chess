@@ -2,8 +2,8 @@ package com.eintosti.chess.game.piece;
 
 import com.eintosti.chess.Chess;
 import com.eintosti.chess.game.Game;
-import com.eintosti.chess.game.board.Board;
 import com.eintosti.chess.game.board.Move;
+import com.eintosti.chess.game.board.PhysicalBoard;
 import com.eintosti.chess.game.participant.Participant;
 import com.eintosti.chess.game.participant.PlayerParticipant;
 import com.eintosti.chess.schematic.Schematic;
@@ -30,12 +30,12 @@ public class PieceMovement {
     }
 
     public void complete(Move move, Participant participant) {
-        Board board = game.getBoard();
+        PhysicalBoard board = game.getBoard();
         Location[] oldCorners = board.getTileCorners(board.getTile(move.getStartX(), move.getStartZ()));
         Location[] newCorners = board.getTileCorners(board.getTile(move.getEndX(), move.getEndZ()));
 
         Color color = piece.getColor();
-        Move.Outcome outcome = board.makeMove(move, color);
+        Move.Outcome outcome = board.execute(move);
         piece.setMoved();
         game.setLastMove(participant, move);
 

@@ -5,7 +5,7 @@ import com.eintosti.chess.event.PieceMoveEvent;
 import com.eintosti.chess.event.PieceSelectEvent;
 import com.eintosti.chess.event.PieceUnselectEvent;
 import com.eintosti.chess.game.Game;
-import com.eintosti.chess.game.board.Board;
+import com.eintosti.chess.game.board.PhysicalBoard;
 import com.eintosti.chess.game.board.Tile;
 import com.eintosti.chess.game.participant.PlayerParticipant;
 import com.eintosti.chess.game.piece.Piece;
@@ -53,7 +53,7 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        Board board = game.getBoard();
+        PhysicalBoard board = game.getBoard();
         Tile selectedTile = board.getTile(hitBlock.getLocation());
         if (selectedTile == null) {
             return;

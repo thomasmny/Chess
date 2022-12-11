@@ -2,7 +2,7 @@ package com.eintosti.chess.game.piece.pieces;
 
 import com.eintosti.chess.game.board.Board;
 import com.eintosti.chess.game.board.Move;
-import com.eintosti.chess.game.participant.Participant;
+import com.eintosti.chess.game.piece.Color;
 import com.eintosti.chess.game.piece.Piece;
 import com.eintosti.chess.game.piece.PieceType;
 
@@ -13,8 +13,8 @@ public class Queen extends Piece {
 
     private final PieceType pieceType;
 
-    public Queen(Participant participant) {
-        super(participant);
+    public Queen(Color color) {
+        super(color);
         this.pieceType = PieceType.QUEEN;
     }
 

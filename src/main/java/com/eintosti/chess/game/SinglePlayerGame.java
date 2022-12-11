@@ -39,11 +39,11 @@ public class SinglePlayerGame extends Game {
             return;
         }
 
-        Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(Chess.class), () -> {
-            Move randomMove = getRandomMove();
-            Tile currentTile = board.getTile(randomMove.getStartX(), randomMove.getStartZ());
-            Tile tileToMoveTo = board.getTile(randomMove.getEndX(), randomMove.getEndZ());
+        Move randomMove = getRandomMove();
+        Tile currentTile = board.getTile(randomMove.getStartX(), randomMove.getStartZ());
+        Tile tileToMoveTo = board.getTile(randomMove.getEndX(), randomMove.getEndZ());
 
+        Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(Chess.class), () -> {
             PieceMoveEvent pieceMoveEvent = new PieceMoveEvent(this, currentTile.getPiece(), currentTile, tileToMoveTo, black);
             Bukkit.getServer().getPluginManager().callEvent(pieceMoveEvent);
 

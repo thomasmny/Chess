@@ -3,20 +3,17 @@ package com.eintosti.chess.game.piece;
 import com.eintosti.chess.game.board.Board;
 import com.eintosti.chess.game.board.Move;
 import com.eintosti.chess.game.board.Tile;
-import com.eintosti.chess.game.participant.Participant;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public abstract class Piece {
 
-    protected Participant participant;
     protected Color color;
     protected boolean moved;
 
-    public Piece(Participant participant) {
-        this.participant = participant;
-        this.color = participant.getColor();
+    public Piece(Color color) {
+        this.color = color;
         this.moved = false;
     }
 
@@ -61,7 +58,7 @@ public abstract class Piece {
     @Nullable
     public Move getMove(Board board, int startX, int startZ, int endX, int endZ) {
         for (Move move : getMoves(board, startX, startZ)) {
-            if (move.equals(new Move(startX, startZ, endX, endZ))) {
+            if (move.equals(new Move(this, startX, startZ, endX, endZ))) {
                 return move;
             }
         }
@@ -92,7 +89,7 @@ public abstract class Piece {
 
         Tile tile = board.getTile(endX, endZ);
         Piece piece = tile.getPiece();
-        Move move = new Move(startX, startZ, endX, endZ);
+        Move move = new Move(this, startX, startZ, endX, endZ);
 
         if (piece == null) {
             moves.add(move);

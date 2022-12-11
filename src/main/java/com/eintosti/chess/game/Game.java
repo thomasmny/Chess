@@ -2,6 +2,7 @@ package com.eintosti.chess.game;
 
 import com.eintosti.chess.game.board.Board;
 import com.eintosti.chess.game.board.Move;
+import com.eintosti.chess.game.board.PhysicalBoard;
 import com.eintosti.chess.game.board.Tile;
 import com.eintosti.chess.game.participant.Participant;
 import com.eintosti.chess.game.participant.PlayerParticipant;
@@ -20,7 +21,7 @@ public abstract class Game {
 
     protected final Participant white;
     protected final Participant black;
-    protected final Board board;
+    protected final PhysicalBoard board;
 
     private Participant turn;
     private LastMove lastMove;
@@ -28,7 +29,7 @@ public abstract class Game {
     public Game(Participant white, Participant black, Location pos1, Location pos2) {
         this.white = white;
         this.black = black;
-        this.board = new Board(white, black, pos1, pos2);
+        this.board = new PhysicalBoard(pos1, pos2);
 
         this.turn = white;
     }
@@ -43,11 +44,11 @@ public abstract class Game {
 
     @Nullable
     public PlayerParticipant getPlayerParticipant(Player player) {
-        if (white.getID().equals(player.getUniqueId())) {
+        if (white.getId().equals(player.getUniqueId())) {
             return (PlayerParticipant) white;
         }
 
-        if (black.getID().equals(player.getUniqueId())) {
+        if (black.getId().equals(player.getUniqueId())) {
             return (PlayerParticipant) black;
         }
 
@@ -59,11 +60,15 @@ public abstract class Game {
     }
 
     public boolean isParticipant(UUID uuid) {
-        return white.getID().equals(uuid) || black.getID().equals(uuid);
+        return white.getId().equals(uuid) || black.getId().equals(uuid);
     }
 
     public boolean isParticipantsTurn(Participant participant) {
         return participant.getColor() == turn.getColor();
+    }
+
+    public Participant getTurn() {
+        return turn;
     }
 
     public void nextTurn() {
@@ -75,7 +80,7 @@ public abstract class Game {
         this.lastMove = new LastMove(participant, move);
     }
 
-    public Board getBoard() {
+    public PhysicalBoard getBoard() {
         return board;
     }
 
@@ -87,27 +92,23 @@ public abstract class Game {
         for (int x = 0; x < Board.MAX_TILES; x++) {
             for (int z = 0; z < Board.MAX_TILES; z++) {
                 Tile tile = board.getTile(x, z);
-
                 if (!resetLastMove && lastMove != null) {
                     Move last = lastMove.getMove();
                     Tile from = board.getTile(last.getStartX(), last.getStartZ());
                     Tile to = board.getTile(last.getEndX(), last.getEndZ());
-
                     if (tile.equals(from) || tile.equals(to)) {
                         continue;
                     }
                 }
-
                 board.getTileFloor(tile).forEach(block -> player.sendBlockChange(block.getLocation(), block.getBlockData()));
             }
         }
-
         if (!resetLastMove) {
             showLastMoveToOpponent();
         }
     }
 
-    private void colorTileFloor(Player player, Board board, Tile tile, Material glass, Material concrete) {
+    private void colorTileFloor(Player player, PhysicalBoard board, Tile tile, Material glass, Material concrete) {
         for (Block block : board.getTileFloor(tile)) {
             player.sendBlockChange(block.getRelative(BlockFace.DOWN).getLocation(), concrete.createBlockData());
             player.sendBlockChange(block.getLocation(), glass.createBlockData());
@@ -126,18 +127,14 @@ public abstract class Game {
     }
 
     public void showLastMoveToOpponent() {
-        if (lastMove == null) {
-            return;
-        }
-
-        if (!(getOpponent(lastMove.getParticipant()) instanceof PlayerParticipant playerParticipant)) {
+        if (lastMove == null || !(getOpponent(lastMove.getParticipant()) instanceof PlayerParticipant playerParticipant)) {
             return;
         }
 
         Player player = playerParticipant.getPlayer();
         Move move = lastMove.getMove();
-        colorTileFloor(player, board, board.getTile(move.getStartX(), move.getStartZ()), Material.LIGHT_BLUE_STAINED_GLASS, Material.LIGHT_BLUE_CONCRETE);
-        colorTileFloor(player, board, board.getTile(move.getEndX(), move.getEndZ()), Material.LIGHT_BLUE_STAINED_GLASS, Material.LIGHT_BLUE_CONCRETE);
+        colorTileFloor(player, board, board.getTile(move.getStartX(), move.getStartZ()), Material.YELLOW_STAINED_GLASS, Material.YELLOW_CONCRETE);
+        colorTileFloor(player, board, board.getTile(move.getEndX(), move.getEndZ()), Material.YELLOW_STAINED_GLASS, Material.YELLOW_CONCRETE);
     }
 
     public static final class LastMove {

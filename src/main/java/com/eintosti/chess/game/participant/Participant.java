@@ -19,7 +19,7 @@ public abstract class Participant {
         this.color = color;
     }
 
-    public UUID getID() {
+    public UUID getId() {
         return id;
     }
 

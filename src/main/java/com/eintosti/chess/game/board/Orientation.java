@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * The orientation of a {@link Board} is the direction in which the player faces when standing on the tile A1.
+ * The orientation of a {@link PhysicalBoard} is the direction in which the player faces when standing on the tile A1.
  * <p>
  * In total there are 4 different orientations which differ in their normalized coordinates.
  * <ul>
