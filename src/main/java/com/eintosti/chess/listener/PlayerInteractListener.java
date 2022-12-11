@@ -60,7 +60,7 @@ public class PlayerInteractListener implements Listener {
         }
 
         Tile previousTile = participant.getSelectedTile();
-        if (previousTile != null && board.canMove(selectedTile, previousTile, participant)) {
+        if (previousTile != null && board.canMove(previousTile, selectedTile, participant)) {
             PieceMoveEvent pieceMoveEvent = new PieceMoveEvent(game, previousTile.getPiece(), previousTile, selectedTile, participant);
             Bukkit.getServer().getPluginManager().callEvent(pieceMoveEvent);
             return;

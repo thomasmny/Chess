@@ -14,7 +14,7 @@ public class Bishop extends Piece {
     private final PieceType pieceType;
 
     public Bishop(Color color) {
-        super(color);
+        super(color, 330);
         this.pieceType = PieceType.BISHOP;
     }
 

@@ -14,7 +14,7 @@ public class Queen extends Piece {
     private final PieceType pieceType;
 
     public Queen(Color color) {
-        super(color);
+        super(color, 900);
         this.pieceType = PieceType.QUEEN;
     }
 

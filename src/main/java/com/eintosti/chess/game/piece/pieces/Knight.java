@@ -14,7 +14,7 @@ public class Knight extends Piece {
     private final PieceType pieceType;
 
     public Knight(Color color) {
-        super(color);
+        super(color, 300);
         this.pieceType = PieceType.KNIGHT;
     }
 

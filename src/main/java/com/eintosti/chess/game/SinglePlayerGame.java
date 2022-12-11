@@ -1,6 +1,8 @@
 package com.eintosti.chess.game;
 
 import com.eintosti.chess.Chess;
+import com.eintosti.chess.ai.MiniMax;
+import com.eintosti.chess.ai.MoveStrategy;
 import com.eintosti.chess.event.PieceMoveEvent;
 import com.eintosti.chess.game.board.Move;
 import com.eintosti.chess.game.board.Tile;
@@ -11,9 +13,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.List;
-import java.util.Random;
 
 public class SinglePlayerGame extends Game {
 
@@ -39,21 +38,14 @@ public class SinglePlayerGame extends Game {
             return;
         }
 
-        Move randomMove = getRandomMove();
-        Tile currentTile = board.getTile(randomMove.getStartX(), randomMove.getStartZ());
-        Tile tileToMoveTo = board.getTile(randomMove.getEndX(), randomMove.getEndZ());
-
         Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(Chess.class), () -> {
+            MoveStrategy strategy = new MiniMax(this, 3);
+            Move aiMove = strategy.execute(board);
+            Tile currentTile = board.getTile(aiMove.getStartX(), aiMove.getStartZ());
+            Tile tileToMoveTo = board.getTile(aiMove.getEndX(), aiMove.getEndZ());
+
             PieceMoveEvent pieceMoveEvent = new PieceMoveEvent(this, currentTile.getPiece(), currentTile, tileToMoveTo, black);
             Bukkit.getServer().getPluginManager().callEvent(pieceMoveEvent);
-
-            Bukkit.broadcastMessage(randomMove.toString());
         }, 20L);
-    }
-
-    private Move getRandomMove() {
-        List<Move> moves = black.getLegalMoves(board);
-        int index = new Random().nextInt(moves.size());
-        return moves.get(index);
     }
 }

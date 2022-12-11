@@ -16,7 +16,7 @@ public class King extends Piece {
     private final PieceType pieceType;
 
     public King(Color color) {
-        super(color);
+        super(color, 10000);
         this.pieceType = PieceType.KING;
     }
 

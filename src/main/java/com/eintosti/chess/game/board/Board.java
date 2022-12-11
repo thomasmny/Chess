@@ -101,18 +101,18 @@ public class Board {
     /**
      * Checks if a move is valid.
      *
+     * @param previousTile The tile the piece is currently standing on
      * @param tileToMoveTo The tile the piece wants to move to
-     * @param selectedTile The currently selected tile
      * @param participant  The participant making the move
      * @return {@code true} if the move is valid, otherwise {@code false}
      */
-    public boolean canMove(Tile tileToMoveTo, Tile selectedTile, Participant participant) {
-        if (selectedTile == null) {
+    public boolean canMove(Tile previousTile, Tile tileToMoveTo, Participant participant) {
+        if (previousTile == null) {
             return false;
         }
 
-        Piece selectedPiece = selectedTile.getPiece();
-        if (!selectedPiece.isValidMove(this, selectedTile.getX(), selectedTile.getZ(), tileToMoveTo.getX(), tileToMoveTo.getZ())) {
+        Piece selectedPiece = previousTile.getPiece();
+        if (!selectedPiece.isValidMove(this, previousTile.getX(), previousTile.getZ(), tileToMoveTo.getX(), tileToMoveTo.getZ())) {
             return false;
         }
 

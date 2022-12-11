@@ -14,7 +14,7 @@ public class Rook extends Piece {
     private final PieceType pieceType;
 
     public Rook(Color color) {
-        super(color);
+        super(color, 500);
         this.pieceType = PieceType.ROOK;
     }
 

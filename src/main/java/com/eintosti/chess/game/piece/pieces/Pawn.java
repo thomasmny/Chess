@@ -16,7 +16,7 @@ public class Pawn extends Piece {
     private final PieceType pieceType;
 
     public Pawn(Color color) {
-        super(color);
+        super(color, 100);
         this.pieceType = PieceType.PAWN;
     }
 

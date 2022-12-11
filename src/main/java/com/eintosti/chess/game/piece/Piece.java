@@ -9,11 +9,13 @@ import java.util.List;
 
 public abstract class Piece {
 
-    protected Color color;
+    protected final Color color;
+    protected final int value;
     protected boolean moved;
 
-    public Piece(Color color) {
+    public Piece(Color color, int value) {
         this.color = color;
+        this.value = value;
         this.moved = false;
     }
 
@@ -26,6 +28,10 @@ public abstract class Piece {
 
     public Color getColor() {
         return color;
+    }
+
+    public int getValue() {
+        return value;
     }
 
     public boolean hasMoved() {

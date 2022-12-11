@@ -31,6 +31,9 @@ public abstract class Game {
         this.black = black;
         this.board = new PhysicalBoard(pos1, pos2);
 
+        white.setOpponent(black);
+        black.setOpponent(white);
+
         this.turn = white;
     }
 
@@ -55,10 +58,6 @@ public abstract class Game {
         return null;
     }
 
-    public Participant getOpponent(Participant participant) {
-        return participant.equals(white) ? black : white;
-    }
-
     public boolean isParticipant(UUID uuid) {
         return white.getId().equals(uuid) || black.getId().equals(uuid);
     }
@@ -67,12 +66,12 @@ public abstract class Game {
         return participant.getColor() == turn.getColor();
     }
 
-    public Participant getTurn() {
+    public Participant getCurrentTurn() {
         return turn;
     }
 
     public void nextTurn() {
-        this.turn = getOpponent(turn);
+        this.turn = turn.getOpponent();
         showLastMoveToOpponent();
     }
 
@@ -110,8 +109,8 @@ public abstract class Game {
 
     private void colorTileFloor(Player player, PhysicalBoard board, Tile tile, Material glass, Material concrete) {
         for (Block block : board.getTileFloor(tile)) {
-            player.sendBlockChange(block.getRelative(BlockFace.DOWN).getLocation(), concrete.createBlockData());
             player.sendBlockChange(block.getLocation(), glass.createBlockData());
+            player.sendBlockChange(block.getRelative(BlockFace.DOWN).getLocation(), concrete.createBlockData());
         }
     }
 
@@ -127,7 +126,7 @@ public abstract class Game {
     }
 
     public void showLastMoveToOpponent() {
-        if (lastMove == null || !(getOpponent(lastMove.getParticipant()) instanceof PlayerParticipant playerParticipant)) {
+        if (lastMove == null || !(lastMove.getParticipant().getOpponent() instanceof PlayerParticipant playerParticipant)) {
             return;
         }
 
