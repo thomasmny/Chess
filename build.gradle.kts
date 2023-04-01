@@ -24,7 +24,7 @@ dependencies {
     implementation("dev.jorel:commandapi-shade:8.8.0")
 
     compileOnly("dev.jorel:commandapi-core:8.8.0")
-    compileOnly("org.jetbrains:annotations:23.0.0")
+    compileOnly("org.jetbrains:annotations:23.1.0")
 }
 
 tasks {
