@@ -23,7 +23,7 @@ dependencies {
 
     implementation("dev.jorel:commandapi-shade:8.5.1")
 
-    compileOnly("dev.jorel:commandapi-core:8.5.1")
+    compileOnly("dev.jorel:commandapi-core:8.8.0")
     compileOnly("org.jetbrains:annotations:23.0.0")
 }
 
