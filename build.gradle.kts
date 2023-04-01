@@ -21,7 +21,7 @@ repositories {
 dependencies {
     paperDevBundle("1.19.2-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel:commandapi-shade:8.5.1")
+    implementation("dev.jorel:commandapi-shade:8.8.0")
 
     compileOnly("dev.jorel:commandapi-core:8.8.0")
     compileOnly("org.jetbrains:annotations:23.0.0")
