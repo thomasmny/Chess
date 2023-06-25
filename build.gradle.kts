@@ -1,7 +1,7 @@
 plugins {
     `java-library`
     id("io.papermc.paperweight.userdev") version "1.5.3"
-    id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
+    id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
